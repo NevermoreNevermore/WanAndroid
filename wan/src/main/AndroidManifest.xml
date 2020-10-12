@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.fkw.wan.wan">
+
+    /
+    <application>
+        <activity android:name=".WanMainActivity" />
+    </application>
+</manifest>
