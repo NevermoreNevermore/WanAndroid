@@ -3,6 +3,6 @@
 
     /
     <application>
-        <activity android:name=".WanMainActivity" />
+        <activity android:name=".ui.main.WanMainActivity" />
     </application>
 </manifest>
