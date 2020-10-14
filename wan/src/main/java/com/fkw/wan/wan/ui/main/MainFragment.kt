@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
+import com.blankj.utilcode.util.LogUtils
 import com.fkw.wan.common.BaseFragment
 import com.fkw.wan.wan.R
 import kotlinx.android.synthetic.main.wan_frag_main.*
@@ -36,6 +38,10 @@ class MainFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = Adapter(this)
         vp2.adapter = adapter
+
+        iv_debug.setOnClickListener {
+            findNavController().navigate(R.id.wan_action_main_to_empty, bundleOf("position" to 666))
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -50,7 +56,14 @@ class Adapter(frag: Fragment) : FragmentStateAdapter(frag) {
     }
 
     override fun createFragment(position: Int): Fragment {
-        return EmptyFragment(position)
+        return when (position) {
+            0 -> ArticleFragment()
+            1 -> AnswerFragment()
+            else -> EmptyFragment().apply {
+                arguments = bundleOf("position" to position)
+            }
+        }
     }
+
 
 }

@@ -1,7 +1,9 @@
 package com.fkw.wan
 
 import android.os.Bundle
+import android.os.Debug
 import com.alibaba.android.arouter.launcher.ARouter
+import com.blankj.utilcode.util.LogUtils
 import com.fkw.wan.common.BaseActivity
 import com.fkw.wan.common.RouterActivityPath
 

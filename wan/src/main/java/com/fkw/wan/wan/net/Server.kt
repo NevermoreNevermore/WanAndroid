@@ -29,6 +29,13 @@ interface Server {
     @GET("article/list/{index}/json")
     suspend fun getTopic(@Path("index") index: Int): RespRoot<Page<Article>>
 
+    /**
+     * 获取问答列表
+     * @param index 页码数
+     */
+    @GET("wenda/list/{index}/json")
+    suspend fun getAnswer(@Path("index") index: Int): RespRoot<Page<Article>>
+
 }
 
 val server = NetClient.retrofit.create(Server::class.java)

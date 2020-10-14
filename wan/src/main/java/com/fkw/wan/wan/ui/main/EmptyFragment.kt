@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import com.blankj.utilcode.util.LogUtils
 import com.fkw.wan.common.BaseFragment
 import com.fkw.wan.wan.R
 import kotlinx.android.synthetic.main.wan_layout_fl_container.*
@@ -23,7 +24,11 @@ import kotlinx.android.synthetic.main.wan_layout_fl_container.*
 
  * @author
  */
-class EmptyFragment(val position: Int) : BaseFragment() {
+class EmptyFragment : BaseFragment() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,15 +39,17 @@ class EmptyFragment(val position: Int) : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val tv = TextView(activity!!).apply {
-            text = "EmptyFragment    $position"
+        val tv = TextView(view.context).apply {
+            val position = arguments?.getInt("position")
+            text = "EmptyFragment $position"
         }
         val lp = FrameLayout.LayoutParams(-2, -2)
         lp.gravity = Gravity.CENTER
         fl_container.addView(tv, lp)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
     }
 }

@@ -1,7 +1,18 @@
 package com.fkw.wan
 
+import android.R
 import android.app.Application
+import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
+import com.blankj.utilcode.util.LogUtils
+import com.scwang.smart.refresh.footer.ClassicsFooter
+import com.scwang.smart.refresh.header.ClassicsHeader
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import com.scwang.smart.refresh.layout.api.RefreshFooter
+import com.scwang.smart.refresh.layout.api.RefreshHeader
+import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.listener.DefaultRefreshFooterCreator
+import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator
 
 
 /**
@@ -19,8 +30,10 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
+        LogUtils.i("time")
         initARouter()
+
+        initOtherModule()
     }
 
     private fun initARouter() {
@@ -30,4 +43,20 @@ class App : Application() {
         }
         ARouter.init(this); // 尽可能早，推荐在Application中初始化
     }
+
+
+    private fun initOtherModule() {
+        initWanAndroid()
+    }
+
+    private fun initWanAndroid() {
+        //设置全局的Header构建器
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout -> ClassicsHeader(context) }
+        //设置全局的Footer构建器
+        SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
+            ClassicsFooter(context).setDrawableSize(20f)
+        }
+    }
+
+
 }

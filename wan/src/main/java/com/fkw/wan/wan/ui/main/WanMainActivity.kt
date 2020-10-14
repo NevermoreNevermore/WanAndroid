@@ -1,7 +1,10 @@
 package com.fkw.wan.wan.ui.main
 
 import android.os.Bundle
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.blankj.utilcode.util.LogUtils
 import com.fkw.wan.common.BaseActivity
 import com.fkw.wan.common.RouterActivityPath
 import com.fkw.wan.wan.R
@@ -23,8 +26,7 @@ class WanMainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.wan_layout_fl_container)
-        supportFragmentManager.beginTransaction().add(R.id.fl_container, MainFragment()).commit()
+        setContentView(R.layout.wan_activity_main)
     }
 
 
