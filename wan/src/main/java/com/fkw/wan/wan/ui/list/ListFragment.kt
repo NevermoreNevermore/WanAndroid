@@ -1,48 +1,43 @@
-package com.fkw.wan.wan.ui.main
+package com.fkw.wan.wan.ui.list
 
 import android.os.Bundle
-import android.os.Debug
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.TimeUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.fkw.wan.common.BaseFragment
 import com.fkw.wan.wan.R
-import com.fkw.wan.wan.base.BaseAdapter
-import com.fkw.wan.wan.base.BaseHolder
+import com.fkw.wan.wan.base.BaseWanFragment
 import com.fkw.wan.wan.entity.Article
 import com.fkw.wan.wan.entity.Page
 import com.fkw.wan.wan.entity.RespRoot
 import com.fkw.wan.wan.net.server
 import kotlinx.android.synthetic.main.wan_frag_article.*
-import kotlinx.android.synthetic.main.wan_item_article.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
- * description:  首页-文章对应的Fragment$
+ * description:  显示数据列表的Fragment的基类
  *
- * version:      1.0$
+ * version:      1.0
 
- * createTime:   2020/10/13 15:56
+ * createTime:   2020/10/13 15:58
 
- * modifyTime:    2020/10/13 15:56
+ * modifyTime:    2020/10/13 15:58
 
- * @author       fkw$
+ * @author       fkw
  */
-class ArticleFragment : BaseFragment() {
+open class ListFragment : BaseWanFragment() {
+
 
     private lateinit var mAdapter: BaseQuickAdapter<Article, BaseViewHolder>
+
+    private var mPage = 1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.wan_frag_article, container, false)
@@ -77,10 +72,6 @@ class ArticleFragment : BaseFragment() {
         rv.layoutManager = LinearLayoutManager(view?.context)
 
 
-        tv_search.setOnClickListener {
-            findNavController().navigate(R.id.wan_action_main_to_search)
-        }
-
     }
 
     private fun getData() {
@@ -95,9 +86,4 @@ class ArticleFragment : BaseFragment() {
         return server.getTopic(page)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
-
 }
-

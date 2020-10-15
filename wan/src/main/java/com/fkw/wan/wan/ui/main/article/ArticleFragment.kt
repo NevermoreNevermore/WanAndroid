@@ -1,9 +1,11 @@
-package com.fkw.wan.wan.ui
+package com.fkw.wan.wan.ui.main.article
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.TimeUtils
@@ -12,31 +14,24 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.fkw.wan.common.BaseFragment
 import com.fkw.wan.wan.R
-import com.fkw.wan.wan.base.BaseWanFragment
 import com.fkw.wan.wan.entity.Article
-import com.fkw.wan.wan.entity.Page
-import com.fkw.wan.wan.entity.RespRoot
-import com.fkw.wan.wan.net.server
 import kotlinx.android.synthetic.main.wan_frag_article.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 /**
- * description:  显示数据列表的Fragment的基类
+ * description:  首页-文章对应的Fragment
  *
  * version:      1.0
 
- * createTime:   2020/10/13 15:58
+ * createTime:   2020/10/13 15:56
 
- * modifyTime:    2020/10/13 15:58
+ * modifyTime:    2020/10/13 15:56
 
  * @author       fkw
  */
-open class ListFragment : BaseWanFragment() {
-
+class ArticleFragment : BaseFragment() {
 
     private lateinit var mAdapter: BaseQuickAdapter<Article, BaseViewHolder>
+    private lateinit var mModel: ArticleViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.wan_frag_article, container, false)
@@ -44,20 +39,26 @@ open class ListFragment : BaseWanFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initUI()
-        getData()
+        mModel = ArticleViewModel()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        //mModel = ArticleViewModel(requireActivity().application)
+        initData()
     }
 
     private fun initUI() {
         srl.setOnRefreshListener {
-            ToastUtils.showShort("refresh")
-            it.finishRefresh(1500)
+            mModel.initData()
         }
 
         srl.setOnLoadMoreListener {
-            ToastUtils.showShort("load more")
-            it.finishLoadMore(1500)
+            mModel.loadMore()
         }
 
+        // 自动刷新
+        srl.autoRefresh()
 
         mAdapter = object : BaseQuickAdapter<Article, BaseViewHolder>(R.layout.wan_item_article, null) {
             override fun convert(holder: BaseViewHolder, item: Article) {
@@ -67,29 +68,43 @@ open class ListFragment : BaseWanFragment() {
             }
 
         }
-        rv.adapter = mAdapter
         rv.layoutManager = LinearLayoutManager(view?.context)
+        rv.adapter = mAdapter
+        mAdapter.setEmptyView(R.layout.wan_layout_empty_list)
 
 
-
-
-    }
-
-    private fun getData() {
-        GlobalScope.launch(Dispatchers.Main) {
-            val data = getData(0)
-            LogUtils.i(data)
-            mAdapter.setNewInstance(data.data.datas)
+        // 跳转到搜索界面
+        tv_search.setOnClickListener {
+            findNavController().navigate(R.id.wan_action_main_to_search)
         }
     }
 
-    protected open suspend fun getData(page: Int): RespRoot<Page<Article>> {
-        return server.getTopic(page)
+    private fun initData() {
+        mModel.articleList.observe(viewLifecycleOwner, Observer {
+            srl.finishRefresh()
+            srl.finishLoadMore()
+            if (it == null) {
+                mAdapter.setList(mutableListOf())
+            } else {
+                mAdapter.setList(it)
+            }
+        })
+        mModel.noMoreData.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                srl.finishLoadMoreWithNoMoreData()
+            }
+        })
+        mModel.errorInfo.observe(viewLifecycleOwner, Observer {
+            // 显示不同的界面
+            LogUtils.i("$it")
+        })
+
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
+    override fun onResume() {
+        super.onResume()
 
+    }
 
 }
+

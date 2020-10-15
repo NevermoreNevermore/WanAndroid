@@ -1,10 +1,7 @@
 package com.fkw.wan.wan.ui.main
 
 import android.os.Bundle
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.blankj.utilcode.util.LogUtils
 import com.fkw.wan.common.BaseActivity
 import com.fkw.wan.common.RouterActivityPath
 import com.fkw.wan.wan.R

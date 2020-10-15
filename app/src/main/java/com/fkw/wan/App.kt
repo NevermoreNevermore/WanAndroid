@@ -46,7 +46,12 @@ class App : Application() {
 
 
     private fun initOtherModule() {
+        initLibCommon(this)
         initWanAndroid()
+    }
+
+    private fun initLibCommon(app: App) {
+
     }
 
     private fun initWanAndroid() {

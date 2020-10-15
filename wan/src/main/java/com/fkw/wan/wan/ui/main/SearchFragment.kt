@@ -1,6 +1,6 @@
 package com.fkw.wan.wan.ui.main
 
-import com.fkw.wan.wan.ui.ListFragment
+import com.fkw.wan.wan.ui.list.ListFragment
 
 /**
  * description:  搜索界面

@@ -7,9 +7,12 @@
     tools:context=".SplashActivity">
 
     <TextView
+        android:id="@+id/wan_tv_splash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="Wan Android"
+        android:textColor="#000"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

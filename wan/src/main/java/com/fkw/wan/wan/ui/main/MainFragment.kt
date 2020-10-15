@@ -8,9 +8,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.blankj.utilcode.util.LogUtils
 import com.fkw.wan.common.BaseFragment
 import com.fkw.wan.wan.R
+import com.fkw.wan.wan.ui.main.article.ArticleFragment
 import kotlinx.android.synthetic.main.wan_frag_main.*
 
 
@@ -38,7 +38,8 @@ class MainFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = Adapter(this)
         vp2.adapter = adapter
-
+        vp2.offscreenPageLimit = adapter.itemCount
+        
         iv_debug.setOnClickListener {
             findNavController().navigate(R.id.wan_action_main_to_empty, bundleOf("position" to 666))
         }
